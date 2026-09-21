@@ -1,0 +1,28 @@
+**Software Requirements for Robot Navigation System**  
+
+1. **Input Handling**  
+   - The robot receives data about the following:  
+     - **Front**: Whether the path in front is blocked.  
+     - **Left**: Whether the path to the left is blocked.  
+     - **Right**: Whether the path to the right is blocked.  
+     - **Goal**: Whether the goal is ahead, to the left, or to the right.  
+
+2. **Decision-Making Logic**  
+   - **Prioritize Moving Toward the Goal**:  
+     - If the goal is ahead, left, or right, the robot should move toward it **only if safe** (i.e., not into a blocked direction).  
+     - If the goal is not reachable, check other directions for safe movement.  
+   - **Check for Safe Directions**:  
+     - If no safe direction is available, the robot must **stop** and do not attempt to move.  
+
+3. **Safety Constraints**  
+   - The robot **must never move into a blocked direction**.  
+   - If a direction is blocked, the robot should **not attempt to move** in that direction.  
+
+4. **Simulation Testing**  
+   - The system will be tested in **multiple simulated environments** to ensure robustness and adaptability.  
+
+---  
+**Key Features**:  
+- Direction-based prioritization of movement.  
+- Safety checks for blocked paths.  
+- Stop conditions when no safe direction is available.
