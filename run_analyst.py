@@ -1,5 +1,3 @@
-"""Run the analyst agent and save the validated requirements artifact."""
-
 import json
 from pathlib import Path
 

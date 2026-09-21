@@ -1,5 +1,3 @@
-"""Analyst agent for converting a human brief into validated requirements."""
-
 import json
 import os
 from typing import Any
@@ -16,7 +14,6 @@ ALLOWED_ACTIONS = ["FORWARD", "LEFT", "RIGHT", "STOP"]
 
 
 def build_prompts(brief_text: str) -> tuple[str, str]:
-    """Build the system and user prompts sent to Qwen."""
     system_prompt = """You are a software requirements analyst.
 Your only task is to convert a human-language mobile robot brief into explicit
 software requirements.
@@ -43,7 +40,6 @@ Rules:
 
 
 def ask_qwen(system_prompt: str, user_prompt: str) -> str:
-    """Send prompts to Qwen through Ollama and return its response text."""
     from ollama import chat
 
     response = chat(
@@ -62,7 +58,6 @@ def ask_qwen(system_prompt: str, user_prompt: str) -> str:
 
 
 def validate_requirements(result: Any) -> dict[str, Any]:
-    """Validate Qwen's parsed output and return it when it is valid."""
     if not isinstance(result, dict):
         raise TypeError("Requirements must be a dictionary.")
 
@@ -93,7 +88,6 @@ def validate_requirements(result: Any) -> dict[str, Any]:
 
 
 def run_analyst(brief_text: str) -> dict[str, Any]:
-    """Ask Qwen to analyze the brief, parse its JSON, and validate the result."""
     if not isinstance(brief_text, str) or not brief_text.strip():
         raise ValueError("brief_text must be a non-empty string.")
 

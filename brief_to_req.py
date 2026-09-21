@@ -1,5 +1,3 @@
-"""Initial experiment: ask Qwen to turn the brief into software requirements."""
-
 import os
 from pathlib import Path
 
