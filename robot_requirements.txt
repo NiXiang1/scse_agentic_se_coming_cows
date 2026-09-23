@@ -1,28 +1,57 @@
 **Software Requirements for Robot Navigation System**  
 
-1. **Input Handling**  
-   - The robot receives data about the following:  
-     - **Front**: Whether the path in front is blocked.  
-     - **Left**: Whether the path to the left is blocked.  
-     - **Right**: Whether the path to the right is blocked.  
-     - **Goal**: Whether the goal is ahead, to the left, or to the right.  
+---
 
-2. **Decision-Making Logic**  
-   - **Prioritize Moving Toward the Goal**:  
-     - If the goal is ahead, left, or right, the robot should move toward it **only if safe** (i.e., not into a blocked direction).  
-     - If the goal is not reachable, check other directions for safe movement.  
-   - **Check for Safe Directions**:  
-     - If no safe direction is available, the robot must **stop** and do not attempt to move.  
+### **Functional Requirements**  
+1. **Sensor Input Handling**  
+   - The system must receive and validate input data indicating whether the path **in front**, **to the left**, and **to the right** is blocked.  
+   - The system must receive and validate input data indicating the **goal's direction** (e.g., "ahead", "left", or "right").  
 
-3. **Safety Constraints**  
-   - The robot **must never move into a blocked direction**.  
-   - If a direction is blocked, the robot should **not attempt to move** in that direction.  
+2. **Goal Direction Prioritization**  
+   - If the goal direction is **unblocked**, the system must select that direction as the next movement.  
+   - If the goal direction is **blocked**, the system must evaluate other directions (front, left, right) in a predefined priority order.  
 
-4. **Simulation Testing**  
-   - The system will be tested in **multiple simulated environments** to ensure robustness and adaptability.  
+3. **Direction Selection Logic**  
+   - The system must check the **goal direction first**. If unblocked, select it.  
+   - If the goal direction is blocked, the system must check the remaining directions in the following order: **front**, **left**, **right** (or any other deterministic order, but must be consistent).  
+   - The system must select the **first unblocked direction** from the checked list.  
 
----  
-**Key Features**:  
-- Direction-based prioritization of movement.  
-- Safety checks for blocked paths.  
-- Stop conditions when no safe direction is available.
+4. **Safety Enforcement**  
+   - The system must **never** attempt to move into a blocked direction.  
+   - If all directions (front, left, right) are blocked, the system must **stop movement** and remain stationary.  
+
+5. **Deterministic Decision-Making**  
+   - The system must use a **fixed priority order** for evaluating directions (e.g., goal direction > front > left > right) to ensure deterministic behavior.  
+
+6. **Generalization for Simulated Environments**  
+   - The navigation logic must be **environment-agnostic** and operate correctly across multiple simulated environments without requiring environment-specific configuration.  
+
+---
+
+### **Non-Functional Requirements**  
+- **Real-Time Responsiveness**: The system must process sensor inputs and compute movement decisions in real-time.  
+- **Edge Case Handling**: The system must handle scenarios where all directions are blocked (e.g., robot trapped in a corner).  
+- **Determinism**: The system must produce consistent outputs for identical inputs across all environments.  
+
+---
+
+### **Example Workflow**  
+1. **Inputs**:  
+   - Blocked: Front = `true`, Left = `false`, Right = `false`  
+   - Goal Direction: "Left"  
+2. **Decision**:  
+   - Goal direction ("Left") is unblocked → Move left.  
+3. **Inputs**:  
+   - Blocked: Front = `true`, Left = `true`, Right = `false`  
+   - Goal Direction: "Left"  
+4. **Decision**:  
+   - Goal direction ("Left") is blocked → Check front (blocked), then right (unblocked) → Move right.  
+5. **Inputs**:  
+   - Blocked: Front = `true`, Left = `true`, Right = `true`  
+   - Goal Direction: "Front"  
+6. **Decision**:  
+   - All directions blocked → Stop movement.  
+
+--- 
+
+This structure ensures clarity, safety, and adaptability for the robot's navigation system.

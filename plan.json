@@ -1,0 +1,10 @@
+{
+  "strategy": "Navigate toward the goal while avoiding obstacles and choosing safe fallback directions",
+  "decisions": [
+    {
+      "condition": "Goal is in forward direction and path is unblocked",
+      "action": "FORWARD"
+    }
+  ],
+  "stop_condition": "No safe direction is available to proceed toward the goal"
+}

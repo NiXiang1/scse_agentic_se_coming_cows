@@ -49,6 +49,7 @@ def ask_qwen(system_prompt: str, user_prompt: str) -> str:
             {"role": "user", "content": user_prompt},
         ],
         format="json",
+        think=False,
         options={"temperature": 0},
     )
 
