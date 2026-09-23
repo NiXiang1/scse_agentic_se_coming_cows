@@ -24,8 +24,10 @@ Return only one valid JSON object with exactly this structure:
 }
 
 Rules:
-- Include decisions for safely following a goal direction, choosing a safe
-  fallback when that direction is blocked, and stopping when no direction is safe.
+- decisions must contain exactly four items, one for each action in this order:
+  FORWARD, LEFT, RIGHT, STOP. Give each action a precise safety condition.
+- Cover safely following a goal direction, choosing a safe fallback when that
+  direction is blocked, and stopping when no direction is safe.
 - Every action must be exactly FORWARD, LEFT, RIGHT, or STOP.
 - Never plan movement into a blocked direction.
 - Do not add, remove, or rename fields.
@@ -65,6 +67,12 @@ def validate_plan(data: Any) -> dict[str, Any]:
             raise ValueError(
                 f"decisions[{index}].action must be FORWARD, LEFT, RIGHT, or STOP."
             )
+
+    decision_actions = [decision["action"] for decision in decisions]
+    if len(decision_actions) != 4 or set(decision_actions) != ALLOWED_ACTIONS:
+        raise ValueError(
+            "decisions must contain one decision for each allowed action."
+        )
 
     return data
 
